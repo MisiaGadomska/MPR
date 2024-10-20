@@ -1,9 +1,9 @@
-package pl.edu.pjwsk.MPR_Spring_2.controllers;
+package pl.edu.pjwsk.MPR_Spring_2.controller;
 
 import pl.edu.pjwsk.MPR_Spring_2.model.Cat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.pjwsk.MPR_Spring_2.services.CatService;
+import pl.edu.pjwsk.MPR_Spring_2.service.CatService;
 
 import java.util.List;
 
@@ -24,8 +24,19 @@ public class MyRestController {
         return this.catService.getCatList();
     }
 
+    @GetMapping("name/{name}")
+        public List<Cat> findByName(@PathVariable String name){
+            return this.catService.getByName(name);
+        }
+
+    @GetMapping("color/{color}")
+        public  List<Cat> findByColor(@PathVariable String color){
+        return this.catService.getByColor(color);
+    }
+
+
     @GetMapping("{id}") //endpoint
-    public Cat getCat(@PathVariable int id){
+    public Cat getCat(@PathVariable Long id){
         return this.catService.getCat(id);
     }
 
@@ -36,12 +47,12 @@ public class MyRestController {
 
 
     @DeleteMapping("{id}")
-    public void deleteCat(@PathVariable int id){
+    public void deleteCat(@PathVariable Long id){
         catService.deleteCat(id);
     }
 
     @PutMapping("{id}")
-    public void updateCat(@PathVariable int id, @RequestBody Cat cat){
+    public void updateCat(@PathVariable Long id, @RequestBody Cat cat){
         catService.updateCat(id, cat);
     }
 }
