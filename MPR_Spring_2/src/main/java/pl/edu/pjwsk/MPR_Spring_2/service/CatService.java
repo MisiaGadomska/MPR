@@ -1,6 +1,8 @@
 package pl.edu.pjwsk.MPR_Spring_2.service;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pl.edu.pjwsk.MPR_Spring_2.model.Cat;
 import pl.edu.pjwsk.MPR_Spring_2.repository.CatRepository;
@@ -9,9 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Component
 public class CatService {
+    private StringUtilsService stringUtilsService;
+    private List<Cat> catList = new ArrayList<>();
     private CatRepository repository;
+    @Autowired
     public CatService(CatRepository repository){
         this.repository = repository;
 
