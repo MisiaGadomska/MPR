@@ -4,6 +4,7 @@ package pl.edu.pjwsk.MPR_Spring_2.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import pl.edu.pjwsk.MPR_Spring_2.exception.CatNotFoundException;
 import pl.edu.pjwsk.MPR_Spring_2.model.Cat;
 import pl.edu.pjwsk.MPR_Spring_2.repository.CatRepository;
 
@@ -34,23 +35,28 @@ public class CatService {
     public List<Cat> getCatList() {
         return (List<Cat>) this.repository.findAll();
     }
-    public void add(Cat cat) {
-        this.repository.save(cat);
-    }
-    public Cat getCat(Long id) {
+    public Cat add(Cat cat) {
+        cat.setIdentificator(cat.calculateIdentifier());
+        String upperCaseName = stringUtilsService.upper(cat.getName());
+        String upperCaseColor = stringUtilsService.upper(cat.getColor());
+        cat.setName(upperCaseName);
+        cat.setColor(upperCaseColor);
+        return repository.save(cat);}
+
+    public Cat getCatById(Long id) {
         Optional<Cat> catOptional = this.repository.findById(id);
-        if (catOptional.isPresent()) {
-        return catOptional.get();
-        } else {
-            return null;
+
+        if (catOptional.isEmpty()) {
+            throw new CatNotFoundException();
         }
+            return catOptional.get();
     }
 
     public void deleteCat(Long id) {
         if (repository.existsById(Long.valueOf(id))) {
             repository.deleteById(Long.valueOf(id));
         } else {
-            throw new IndexOutOfBoundsException("Nieprawidłowe id: " + id);
+            throw new CatNotFoundException();
         }
     }
 
@@ -62,7 +68,7 @@ public class CatService {
             existingCat.setId(existingCat.getId());
             repository.save(existingCat);
         } else {
-            throw new IndexOutOfBoundsException("Nieprawidłowe id: " + id);
+            throw new CatNotFoundException();
         }
     }
 

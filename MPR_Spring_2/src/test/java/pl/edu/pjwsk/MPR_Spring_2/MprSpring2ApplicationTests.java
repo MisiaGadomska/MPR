@@ -86,7 +86,7 @@ class MprSpring2ApplicationTests {
 		Cat expectedCat = new Cat("Buba", "Black");
 		when(repository.findById(1L)).thenReturn(Optional.of(expectedCat));
 
-		Cat result = catService.getCat(1L);
+		Cat result = catService.getCatById(1L);
 
 		assertNotNull(result);
 		assertEquals(expectedCat, result);
@@ -99,7 +99,7 @@ class MprSpring2ApplicationTests {
 	public void shouldReturnNullWhenCatNotFoundById(){
 		when(repository.findById(1L)).thenReturn(Optional.empty());
 
-		Cat result = catService.getCat(1L);
+		Cat result = catService.getCatById(1L);
 
 		assertNull(result);
 		verify(repository, times(1)).findById(1L);

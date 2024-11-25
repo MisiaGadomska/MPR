@@ -12,14 +12,16 @@ public class Cat {
     private Long id;
     private String name;
     private String color;
+    private Long identificator;
 
 
-    public Cat(String name, String color){
+    public Cat(String name, String color) {
         this.name = name;
         this.color = color;
+        this.identificator = calculateIdentifier();
     }
 
-    public Cat(){
+    public Cat() {
     }
 
     public Long getId() {
@@ -34,11 +36,11 @@ public class Cat {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getColor(){
+    public String getColor() {
         return color;
     }
 
@@ -47,4 +49,28 @@ public class Cat {
     }
 
 
+    public void setIdentificator(Long identificator) {
+        this.identificator = identificator;
+    }
+
+    public Long getIdentificator() {
+        return identificator;
+    }
+
+    public Long calculateIdentifier() {     //Identyfikator
+        long suma = 0;
+        // Obliczanie sumy wartości znaków z pola name
+        if (this.name != null) {
+            for (char c : this.name.toCharArray()) {
+                suma += c;
+            }
+        }
+        // Obliczanie sumy wartości znaków z pola color
+        if (this.color != null) {
+            for (char c : this.color.toCharArray()) {
+                suma += c;
+            }
+        }
+        return suma;        //Return sumy wartości znaków z pól name i color}
+    }
 }
